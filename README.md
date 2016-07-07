@@ -4,7 +4,7 @@ Distribution for the LPC824 unit including HAL(CMSIS), newlib retarget, RTOS and
   -- early stage --  
   This is published while listening to ('Changed The Way You Kiss Me'): https://www.youtube.com/watch?v=CLXt3yh2g0s 
 
-# KENTer_LPC8xx: System setup (reset and init), Hardware Abstraction Layer (HAL; baseed on LPCopen and CMSIS) and newlib retarget-stubs for a small micro-controller based on ARM Cortex-M0+ and produced by NXP, named LPC812. 
+The System setup (reset and init), Hardware Abstraction Layer (HAL; baseed on LPCopen and CMSIS) and newlib retarget-stubs for a small micro-controller based on ARM Cortex-M0+ and produced by NXP, named LPC812. 
 
 This distribution is focusing on ANCI C programmers environment on bare-metal, meaning inclusion of newlib formatted IO functions, such as scanf and printf for very small micro-controller, mewlib-nano. Second agenda has been to take full advantage of the GNU linker optionLink time optimization (LTO) enabled.
 
@@ -31,15 +31,15 @@ Sometimes these minimum-functions can be usefully, rather than going through the
   or a open source vrsion like, lpc21isp.
 
 
-Note. 1. It is a known issue (it's a standard), that functions like printf() and 
+Note. 1.:
+It is a known issue (it's a standard), that functions like printf() and 
 fwrite() buffer-up until a text-stream is ended by '\n', '\r', '\r\n' or flush-
 file command is given. This setup is optimize for strings, not single chars. A 
 tested solution to unwanted buffering could be to call setbuf(stdout, NULL) before 
 the first call to any IO-functions like printf(), but very inefficient.
 
 
--- > 
-
+# -- > 
 CMSIS violates the following MISRA-C:2004 rules:
 
     Required Rule 8.5, object/function definition in header file.
