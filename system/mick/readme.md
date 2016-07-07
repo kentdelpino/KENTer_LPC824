@@ -1,4 +1,4 @@
-  # A Minimum Inter-process Communication Kernel (MICK)  
+# A Minimum Inter-process Communication Kernel (MICK)  
 
 By Kent del Pino; Valencia - Nov 2015  -- early stage --
 
@@ -22,9 +22,9 @@ state) and allows the kanel/system to enter a sleep-mode (low-power).
 -----
 
 Note on minimum:
- -Super Simple Tasker (SST) / scheduler, require that all tasks run to completion. Can be preempted 
- -by higher priority tasks. SST is good for very small stacks(RAM). We actually have some RAM for 
- -stacking and want multi-tasking and to be able to pause (delay) a tasks in a sequential process.
+ Super Simple Tasker (SST) / scheduler, require that all tasks run to completion. Can be preempted 
+ by higher priority tasks. SST is good for very small stacks(RAM). We actually have some RAM for 
+ stacking and want multi-tasking and to be able to pause (delay) a tasks in a sequential process.
 
 
 Links:
