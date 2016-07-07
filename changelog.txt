@@ -1,0 +1,235 @@
+
+
+  -- Not maintained :-(  --
+
+
+
+9 April 2016. Are beginning to use CMSIS files from the distribution NXPs SCTimer/PWM cookbook, 
+  instead of the lpcopen_2_19_lpcxpresso_nxp_lpcxpresso_824 package. Due to the .h files are more 
+  updated towards the LPC824. The SCT-timer in LPC824 is not the same as the one in LPC812, the 
+  SCT-timer in LPC824 has significantly bigger capacity.
+
+
+12 November. 2015 (.\controller\chip_patch\ and makefile)
+  included the ASM_COMPONENTS option for for running assembler first on special files, such 
+  as aeabi_romdiv_patch.s 
+
+
+11 November. 2015 (minimum_hw.h, now minimal_board.h)
+  minimum_hw is renamed to minimal_board, due to the inclusion of definitions on the minimal 
+  RTOS and __board.h is normally name.
+
+
+11 November. 2015 (startup_lpc824_812.c):
+  Including patch for AEABI integer divide functions to point to ROM-based divide functions on 
+  LPC824.
+
+
+10 November. 2015 (startup_lpc824_812.c):
+  changing interrupt vector table, to support the added/newer hardware of LPC824.
+
+
+9 November. 2015 (makefile and link script):  
+  Changes are made to support the two targets, LPC824 and LPC812. Focus will for now no be on
+  the LPC824.
+
+
+5 November. 2015 (mick\kernel)
+  Adding a lot of __attribute__ ((used)) and ((used, naked)) to functions in kernel, to 
+  insure support for GNU LTO.
+
+
+3 November. 2015 (.\system\mick\)
+  Inclusion of Minimal Inter-process Communication Kernel (MICK)
+
+
+23 October. 2015 (CMSIS folder)
+  Updated CMSIS core-files to ARM CMSIS CMSIS-SP-00300-r4p4-00rel0
+
+
+22 October. 2015 (minimum_hw.h)
+  As part of the update to LPCopen 2_19, I have introduced new definitions for the exploitation 
+  of new functionality: 
+    __WANTED_PLL_MAIN;    Preferred MAIN (PLL-out) speed. __WANTED_PLL_MAIN is done so, if it's
+                          NOT defined, then We use ROM-based (via ROM-API) initialization code
+                          and the PLL_MAIN will be equal to CORE_FREQ.
+    __WANTED_CORE_FREQ;   Preferred CPUcore speed.
+    _FORCED_FLASH_SPEED;  Forced fast-access to FLASH(1 CPU clocks).
+
+  Tested also on lower speed (CPU 4 MHz):
+   -PLL in(xTal): 12 MHz -PLL out(main): 12 MHz 
+   -System(CPU,MEM,AHB): 4 MHz -USART base: 1846153 Hz
+
+
+22 October. 2015 (Makefile)
+  The Enable ROM-based code and API is deleted (-DUSE_ROM_API), function is now carried out 
+  in other ways. 
+
+
+22 October. 2015 (gcc_startup_lpc812.c)
+  Now use irc_8xx.c oscillator initialization (CPU speed).
+
+
+22 October. 2015 (irc_8xx.c)
+  The file is changed for the opportunity of forced fast-access to FLASH(1 clocks) by use of
+  _FORCED_FLASH_SPEED. 
+
+
+21 October. 2015 (sys_config.h)
+  Temporarily turned off LPC82x full-support while I'm still run on LPC81x hardware.
+
+
+19 October. 2015 (Extract of Driver-HAL package LPCopen 2.19)
+
+-Update of Driver-HAL/ Lib-functions, into our folder-structure-
+  The Lib-functions "dma_8xx" and "adc_8xx" is of course the primary news which represent the 
+  change from LPC812 to LPC824 controller. These changes are supported in peripheral examples 
+  (source-code).
+
+  Folder re-named from "config" to "config_82x" with a change in the sys_config.h file, now it 
+  also define CHIP_LPC82X series. Our name for it, will be config_8xx.
+
+  Code size improvement of importants is the new lib-file "irc_8xx". Functions for setting main / 
+  system clock using IRC and PLL, and in ROM-based version. 
+
+  -Cortex Microcontroller Software Interface Standard (CMSIS)- Still Revision: V3.20.
+
+
+16 October. 2015 (Compiler Update)
+
+  Test with updated compiler the ARM Embedded GCC 4.9-2015q3, See:
+     https://launchpad.net/gcc-arm-embedded
+
+(New Compiler info[GCC 4.9-2015q3]: "
+   text    data     bss     dec     hex  filename 
+   8924    100     1388   10412    28ac  ./_out/KENTer_LPC8xx_SYS.axf"
+)
+   New code a little larger than former
+ (Former Compiler info[GCC 4.9-2015q2]: "
+    text    data     bss     dec     hex  filename 
+    8872    100     1388   10360    2878  ./_out/KENTer_LPC8xx_SYS.axf"
+ )
+
+
+The Compiler Update(GCC 4.9-2015q3) was tested with a small program that include newlib-nano, 
+JSON lib, with the SYS-timer running(for blinking LED) and printf output of the following:
+
+- User: johndoe
+-PLL in(xTal): 12 MHz -PLL out(main): 24 MHz 
+- User: johndoe
+ -System(CPU,MEM,AHB): 24 MHz -USART base: 1846153 Hz
+- User: johndoe
+- 
+
+
+15 July. 2015 (JSON)
+
+  Test of the JSON parser jsmn (pronounced like 'jasmine'). A very simple tool with a small 
+  footprint. To be used settings/configuration and status reports.
+    The source:  
+      https://bitbucket.org/zserge/jsmn/overview
+
+
+2 July. 2015 (Compiler)
+
+  Test with updated compiler the ARM Embedded GCC 4.9-2015q2, See:
+     https://launchpad.net/gcc-arm-embedded
+
+
+30 May. 2015 (_ttywrch.h)
+
+  _ttywrch.h was added to .\system\retarget_stubs, to enable other user of this simple and direct 
+  access to UART.
+
+
+29 May. 2015 (_ttywrch.c)
+
+  _ttywrch.c was added to .\system\retarget_stubs a very simple stderr output service to UART for 
+  newlib.
+
+
+28 May. 2015 (_sbrk.c)
+
+  _sbrk.c was added to .\system\retarget_stubs in a very limited version, for example without 
+  out-of-memory checking.
+
+
+27 May. 2015 (linkLPC812.ld)
+
+  Since the selection has been newlib (the nano version), there is a lot of re-targeting to do, 
+  but also work to do on name-conventions. so the SECTIONS .stack has been changed  and the 
+  __HeapLimit is now provided.
+
+
+26 May. 2015 (Changes in folder-structure)
+
+  a/ For example is retarget functions moved to ./system, where in time ioctl.h also will be. 
+
+  b/ For the very limited PCB board functions that I have predefined, a new header-file is made:
+       ./system/board_def.h  
+
+
+>-- The following changes is due to new driver(LPCopen_2_15) and compiler update -->
+
+
+23 May. 2015 (makefile)
+  Compiling:   -fno-exceptions, For now, just to be sure no-exceptions is inserted.
+
+
+23 May. 2015 (linkLPC812.ld)
+
+  a/  Changes in our SECTIONS.text, the inclusion of  .eh_frame* For exception unwinding among 
+  others.  WE DON'T WANT IT, but the compiler needs it.
+
+  b/ We now user double-underscore on some constants (ANSI-C standard), We also stated that: 
+  "For the future development of makerfiles and link-script files, the",, See in the linkLPC812.ld.
+
+
+21 May. 2015 (makefile)
+
+  Work on using LTO (Link Time Optimization), has resulted in a complete turnaround in the compiler- 
+  linker approach, We now call the compiler (CFLAGS += -flto----), which forward the objects to the 
+  linker (LFLAGS = --specs=nano.specs----). Has resulted in significant code-size savings. See the 
+  file:__Playing with makefile and GNU LTO.txt (in _doc). 
+
+
+20 May. 2015 (gcc_startup_lpc812.c)
+  In the efforts to deploy Link time optimization (LTO) in the project, we have to make sure that 
+  code, that can seem to be unused (interrupt vectors and reset-code), stay in the linked applications 
+  file. Example:   __attribute__ ((used)) void ResetISR(void) {
+
+
+19 May. 2015 (linkLPC812)
+  Just a small on-the-run change, We now start with filling up the flash with 1's (FILL(0xff)). We are 
+  burning 0's.
+
+
+19 May. 2015 (makefile)
+
+  New DEFINES are made in the makefile, for better organisation and to make it easier to determine
+  in which order source-code is compiled and objects linked.
+
+
+18 May. 2015 (gcc_startup_lpc812.c)
+
+  The Work on the makefile made a declaration, needed in gcc_startup_lpc812.c. Change to gcc_startup_lpc812.c:
+     Declaration added:     extern int main(void);
+
+
+17 May. 2015 (makefile)
+
+  a/ __Playing with makefile and linker.txt (in _doc) shows the compiler output results in size. 
+
+  b/ In the efforts to deploy Link time optimization (LTO) in the project, among other things has the 
+  makefile function clean: been updated for also to been able to work on windows7 etc.  In the makefile 
+  set CLEANCOMMAND = del, for Windows GNU compiler.
+
+
+
+ Apr. 2015
+ 
+  a/ Update to ARM Embedded GCC 4.9.3-2015q1 (or newer), see: https://launchpad.net/gcc-arm-embedded
+
+  b/ Update to use LPCopen_2_15 (without freeRTOS)
+
+
