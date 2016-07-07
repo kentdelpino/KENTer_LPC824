@@ -1,0 +1,51 @@
+
+  -- Playing with makefile and linker  --
+--  Kent del Pino - 16 Mar. 2015  ;Berlin  --
+
+  The goal is code-size optimization and implementation of GNU LTO, please see the result. 
+
+----------------------------
+
+[-Os]
+CFLAGS+= -Os -ffunction-sections -fdata-sections -fno-builtin --specs=nosys.specs --specs=nano.specs
+Linker output: 2100  24  616  2740  ab4
+Map-file: 0x00000834                __exidx_end = 
+
+[-O3]
+CFLAGS+= -O3 -ffunction-sections -fdata-sections -fno-builtin --specs=nosys.specs --specs=nano.specs
+Linker output:  2116  24  616  2756  ac4
+Map-file: 0x00000844                __exidx_end = 
+
+[Cleaning Up]
+As from 18/5 it output like this:
+CFLAGS += -Os -ffunction-sections -fdata-sections
+Linker output:  1720  24  616  2360  938
+Map-file: 0x000006b8                _etext = .   ( No more __exidx_end = )
+
+[Placing two small strings in the .data(_etext) area instead of on the stack]
+As from 18/5 it output like this:
+CFLAGS += -Os -ffunction-sections -fdata-sections
+Linker output:  1656  44  616  2316  90c
+Map-file: 0x00000678                _etext = .   
+
+[Playing with, in which order sources-code is compiled and objects linked]
+It makes no difference in code-size.
+
+[Changing the MPU definition]
+Changing the MPU definition from: cortex-m0plus to: cortex-m0plus.small-multiply.  
+We have multiply operator in out test app. among others like this:  noBig = (noBig * 3) * (uint64_t) (noSmall * 12);
+Linker output:  1708  44  616  2368  940
+Map-file: 0x000006ac                _etext = .   
+
+   NOT GOOD, bigger code and the program do NOT work in target, NOT ready for cortex-m0plus.small-multiply
+
+[MPU definition: is now on TODO. Roll back and test on target, OK]
+
+----------------------------------------------------
+The result [NOW with LTO]  
+See changelog, and makefile for settings
+Linker output:  1444  44  608  2096  830
+Map-file: 0x000005a4                _etext = .  
+
+
+
