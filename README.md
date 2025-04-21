@@ -1,5 +1,5 @@
 # KENTer_LPC824
-Distribution for the LPC824 unit including HAL(CMSIS), newlib retarget, RTOS and makefile with focus on GNU Link time optimization (LTO).
+|very old, would like to keep| Distribution for the LPC824 unit including HAL(CMSIS), newlib retarget, RTOS and makefile with focus on GNU Link time optimization (LTO).
 
   -- early stage --  
   This is published while listening to ('Changed The Way You Kiss Me'): https://www.youtube.com/watch?v=CLXt3yh2g0s 
